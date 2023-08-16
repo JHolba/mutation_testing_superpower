@@ -66,9 +66,13 @@ def test_that_only_years_divisible_by_four_are_leap_years(year):
         assert year % 4 == 0
 ```
 
-(Footnote: writing the test in this way makes it very easy
-to translate into a property test using [hypothesis](hypothesis.works)
-so you get to have a large amount of test cases basically for free)
+Now this test has a bit of logic in it, that isn't really necessary. Many would
+consider this a bit of a code smell, and I agree. However, it is the direct
+translation of the specification. Also, wwriting the test in this way makes it
+very easy to translate into a property test using
+[hypothesis](hypothesis.works) so you get to have a large amount of test cases
+basically for free which I am a big fan of. Hopefully, the logic doesn't
+hide anything nefarious away from us...
 
 Now, lets err on the side of following TDD too literally, and get going
 with some implementation. Perhaps not everyone would agree at this point,
