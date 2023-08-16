@@ -21,8 +21,6 @@ def test_that_years_divisible_by_100_are_not_leap_years_unless_divisible_by_400(
 def test_that_only_years_divisible_by_four_are_leap_years(year):
     if year % 4 != 0:
         assert not is_leap_year(year)
-    if is_leap_year(year):
-        assert year % 4 == 0
 
 
 @pytest.mark.parametrize("year", [1900, 1908, 1914, 1918, 2004])
@@ -61,6 +59,20 @@ class Constant(Expression):
         return str(self.constant)
 
 
+class Variable(Expression):
+    def __init__(self):
+        pass
+
+    def __call__(self, year):
+        return year
+
+    def __repr__(self):
+        return str(self)
+
+    def __str__(self):
+        return "year"
+
+
 class BinaryOperator:
     def __init__(self, callable, symbol) -> None:
         self.callable = callable
@@ -97,7 +109,9 @@ integer_operators = st.sampled_from([plus, minus, mod])
 is_divisible_candidates = comparisons.flatmap(
     lambda x: st.builds(
         x,
-        integer_operators.flatmap(lambda x: st.builds(x, constants, constants)),
+        integer_operators.flatmap(
+            lambda x: st.builds(x, st.just(Variable()), constants)
+        ),
         constants,
     ),
 )
@@ -113,18 +127,17 @@ is_leap_year_candidates = boolean_operators.flatmap(
 )
 
 
-@settings(max_examples=1000000)
+@settings(max_examples=10000)
 @given(is_leap_year_candidates)
 def test_that_no_mutants_exist(is_leap_year_mutant):
-    with suppress(Exception):
+    with suppress(ZeroDivisionError):
         assert (
             any(
-                year % 100 == 0 and is_leap_year_mutant(year) and year % 400 == 0
+                year % 100 == 0 and is_leap_year_mutant(year) and year % 400 != 0
                 for year in [1600, 1700, 1800, 1900]
             )
             or any(
-                (year % 4 != 0 and is_leap_year_mutant(year))
-                or (is_leap_year_mutant(year) and year % 4 != 0)
+                year % 4 != 0 and is_leap_year_mutant(year)
                 for year in [1904, 1914, 1918, 1939, 1945, 1908, 2004]
             )
             or any(

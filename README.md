@@ -62,8 +62,6 @@ import pytest
 def test_that_only_years_divisible_by_four_are_leap_years(year):
     if year % 4 != 0:
         assert not is_leap_year(year)
-    if is_leap_year(year):
-        assert year % 4 == 0
 ```
 
 Now this test has a bit of logic in it, that isn't really necessary. Many would
