@@ -3,8 +3,8 @@
 # THIS IS A DRAFT!
 
 I am by no means a TDD guru, but I am a believer. That being said, I find it
-problematic to apply a all or nothing approach towards it. For instance, what
-do you do if your working on 30 year old code, which was definitely *not*
+problematic to apply an all or nothing approach towards it. For instance, what
+do you do if you are working on 30 year old code, which was definitely *not*
 developed with TDD? Is the code irredeemable? Of course not! As Michael
 Feathers excellent book "working with legacy software" prescribes, we add
 tests and then start refactoring. I have not heard any TDD proponent oppose
@@ -17,7 +17,7 @@ this practice. But beware!
 > medium.com/97-things/use-testing-to-develop-better-software-faster-9dd2616543d3
 
 The problem: we aren't applying the red part of red, green, refactor. There is no
-book keeping which ensures the test guards against some failure.
+bookkeeping which ensures the test guards against some failure.
 
 So what are the things we want to achieve by applying TDD?
 
@@ -26,14 +26,14 @@ So what are the things we want to achieve by applying TDD?
 * All tests can fail for some incorrect version of the code
 
 These are certainly great goals and TDD is a really efficient way of
-getting there. Its like buying the groceries on the way home from work,
+getting there. It's like buying the groceries on the way home from work;
 you save yourself two trips.
 
 That being said, we really want it to do at least one more thing:
 
 * There should be enough test cases to avoid bugs
 
-Oh yea, right... So let's take a truly toy example borrowed by [Kevlin
+Oh yea, right... So let's take a truly toy example borrowed from [Kevlin
 Henney's "structure and interpretation of test
 cases"](https://www.youtube.com/watch?v=MWsk1h8pv2Q&t=892s). Let's implement
 is_leap_year in python.
@@ -51,7 +51,7 @@ from calendar import isleap
 But for the sake of argument, let's have a specification:
 
 > To be a leap year, the year number must be divisible by four – except for
-> years divisble by 100, which must also be divisible by 400.
+> years divisble by 100, unless they are also be divisible by 400.
 
 The first part of this specification translates very easily into a test:
 
@@ -66,11 +66,11 @@ def test_that_only_years_divisible_by_four_are_leap_years(year):
 
 Now this test has a bit of logic in it, that isn't really necessary. Many would
 consider this a bit of a code smell, and I agree. However, it is the direct
-translation of the specification. Also, wwriting the test in this way makes it
+translation of the specification. Also, writing the test in this way makes it
 very easy to translate into a property test using
 [hypothesis](hypothesis.works) so you get to have a large amount of test cases
-basically for free which I am a big fan of. Hopefully, the logic doesn't
-hide anything nefarious away from us...
+basically for free, which I am a big fan of. Hopefully, the logic doesn't
+hide anything nefarious from us...
 
 Now, lets err on the side of following TDD too literally, and get going
 with some implementation. Perhaps not everyone would agree at this point,
@@ -119,7 +119,7 @@ def is_leap_year(year: int) -> bool:
 
 Now, admittedly I have played a bit of a trick. The tests have tried their best
 to translate the requirements as written but have conveniently not observed any
-of the return values directly. In the specification there is an case hidden by
+of the return values directly. In the specification there is a case hidden by
 natural language:
 
 
@@ -139,13 +139,12 @@ def test_that_years_divisible_by_4_and_not_by_100_are_leap_years(year):
 
 
 Here is a workflow I have recently started using for legacy code before
-refactoring, inspired by [mutation
-testing](https://en.wikipedia.org/wiki/Mutation_testing):
+refactoring, inspired by [mutation testing](https://en.wikipedia.org/wiki/Mutation_testing):
 
-1. Create a mutant of the code (preferably one with very undesired behavior or be creative!)
+1. Create a mutant of the code (preferably one with very undesired behavior. Be creative!)
 1. If the tests fail: the confidence that refactoring is safe increases
 1. else: add a test that *kills the mutant*! If little is known about the requirements of the program
-    then use snapshot test.
+    then use a snapshot test.
 1. Use source control to remove the mutant
 
 We will have a look at some examples
