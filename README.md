@@ -1,4 +1,4 @@
-# The values behind TDD
+# Mutation testing: the superpower everyone has
 
 # THIS IS A DRAFT!
 
@@ -23,7 +23,7 @@ So what are the things we want to achieve by applying TDD?
 
 * All of the code is designed to be testable
 * Every requirement has a test and all code is needed for a requirement
-* All tests can fail when the corresponding requirement is not present
+* All tests can fail for some incorrect version of the code
 
 These are certainly great goals and TDD is a really efficient way of
 getting there. Its like buying the groceries on the way home from work,
